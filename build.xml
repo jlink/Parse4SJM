@@ -1,0 +1,76 @@
+<project name="Parse4SJM build jar" default="build" basedir=".">
+
+	<property name="version" value="0.9beta" />
+	<property name="src.dir" value="src" />
+	<property name="tests.dir" value="tests" />
+	<property name="examples.dir" value="examples" />
+	<property name="build.dir" value="build" />
+	<property name="jars.dir" value="distrib/" />
+	<property name="junit.lib" value="lib/junit-4.6.jar" />
+	<property name="mockito.lib" value="lib/mockito-all-1.7.jar" />
+	<property name="parse4sjm.jar" value="${jars.dir}/parse4sjm-${version}.jar" />
+	<property name="parse4sjm.src.zip" value="${jars.dir}/parse4sjm-${version}-src.zip" />
+	<property name="parse4sjm.tests.zip" value="${jars.dir}/parse4sjm-${version}-tests.zip" />
+	<property name="parse4sjm.examples.zip" value="${jars.dir}/parse4sjm-${version}-examples.zip" />
+	<property name="build.compiler" value="modern" />
+
+	<path id="class.path.build">
+		<pathelement location="${junit46.lib}" />
+	</path>
+
+	<target name="clean">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter" />
+		<echo>running in Eclipse</echo>
+		<echo>Using compiler: ${build.compiler}</echo>
+		<tstamp />
+	</target>
+
+	<target name="init" depends="clean, properties">
+		<!--<delete dir="${jars.dir}" />-->
+		<mkdir dir="${jars.dir}" />
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="init">
+		<javac source="1.5" target="1.5" destdir="${build.dir}" srcdir="${src.dir}" debug="on" compiler="modern" fork="yes">
+			<classpath refid="class.path.build" />
+		</javac>
+	</target>
+
+	<path id="class.path.test">
+		<pathelement location="${junit.lib}" />
+		<pathelement location="${mockito.lib}" />
+		<pathelement location="${build.dir}" />
+	</path>
+
+	<target name="compile.tests" depends="compile">
+		<javac destdir="${build.dir}" srcdir="${tests.dir}" debug="on" compiler="modern" fork="yes">
+			<classpath refid="class.path.test" />
+		</javac>
+	</target>
+
+	<target name="test" depends="compile.tests">
+		<junit printsummary="yes" haltonerror="true" haltonfailure="true">
+			<batchtest haltonfailure="yes" todir="${build.dir}">
+				<fileset dir="${build.dir}/sjm/">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+			<classpath refid="class.path.test" />
+		</junit>
+	</target>
+
+	<target name="build" depends="compile">
+		<!-- <copy todir="${build.dir}" file="${src.dir}/license.txt" />-->
+		<jar jarfile="${parse4sjm.jar}" basedir="${build.dir}" />
+		<zip zipfile="${parse4sjm.src.zip}" basedir="${src.dir}" />
+		<zip zipfile="${parse4sjm.tests.zip}" basedir="${tests.dir}" />
+		<zip zipfile="${parse4sjm.examples.zip}" basedir="${examples.dir}" />
+	</target>
+
+</project>
+

@@ -1,0 +1,23 @@
+- Tokenizer now delivers numbers as BigDecimal instead of doubles.
+- Added new Terminal type sjm.parse.tokens.Int which matches only Integer values and puts BigInteger in Token  
+- Tokenizer and WordState now works with unicodes
+- Added Tokenizer.disableComments()
+- Added ITokenizer interface
+- Added TokenType "whitespace" and Tokenizer.enableWhitespaceTokenizing()
+- Changed collections of Assemblies from Vector to Set<Assembly> 
+- Change collections of Parsers from Vector to Set<Parser> where applicable
+- Change Parser.randomExpansion(int maxDepth, int depth) to return type List<String>
+- Got rid of most Vectors
+- Assembly now implements Iterator<Object> instead of Enumerator
+- Changed PubliclyCloneable to PubliclyCloneable<T>
+- Added sjm.grammar package and Grammar class
+- Introduced interface IParser for use in Grammar
+- Introduced interface IAssembler
+- Added Repetition.requireMatches(int)
+- Removed Terminal.setDiscard()
+- Added IParser.isConstant()
+- Added sjm.parse.tokens.UpperCaseWord and sjm.parse.tokens.LowerCaseWord as new terminal types
+- Moved Assembler.elementsAbove() to AssemblerHelper and got rid of abstract class Assembler
+- Moved everything from sjm.examples to sjm.examples.book
+- Added Assembly.popAllMatches(): Should make fence tokens superfluous (but doesn't so far)
+- Moved PubliclyCloneable to parse package

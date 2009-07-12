@@ -1,0 +1,15 @@
+rule = LowerCaseWord '=' expression;
+expression = sequence alternationSequence*;
+sequence = factor | sequenceFactor; 
+sequenceFactor = factor sequence;
+alternationSequence = '|' sequence;
+factor = phrase | repetition | atLeastOne;
+repetition = phrase '*';
+atLeastOne = phrase '+';
+phrase = '(' expression ')' | atom;
+atom = symbol | reference | caseless | discard | terminal;
+discard = '#' (caseless | symbol);
+symbol = SymbolDef;
+caseless = CaselessTerminalDef;
+reference = LowerCaseWord;
+terminal = UpperCaseWord;
