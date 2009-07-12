@@ -1,5 +1,7 @@
 package sjm.examples.book.pretty;
 
+import java.util.Vector;
+
 /*
  * Copyright (c) 2000 Steven J. Metsker. All Rights Reserved.
  * 
@@ -41,7 +43,7 @@ public abstract class ComponentNode {
 	 * @return a textual description of this node
 	 */
 	public String toString() {
-		return toString(0, true, new java.util.Vector());
+		return toString(0, true, new Vector<ComponentNode>());
 	}
 
 	/*
@@ -51,7 +53,7 @@ public abstract class ComponentNode {
 	 * 
 	 * @return a textual description of this node
 	 */
-	protected abstract String toString(int n, boolean label, java.util.Vector visited);
+	protected abstract String toString(int n, boolean label, Vector<ComponentNode> visited);
 
 	/**
 	 * Return a textual description of this node without showing
@@ -63,6 +65,6 @@ public abstract class ComponentNode {
 	 *         composite values
 	 */
 	public String toStringWithoutLabels() {
-		return toString(0, false, new java.util.Vector());
+		return toString(0, false, new Vector<ComponentNode>());
 	}
 }
