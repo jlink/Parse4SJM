@@ -21,3 +21,4 @@
 - Moved everything from sjm.examples to sjm.examples.book
 - Added Assembly.popAllMatches(): Should make fence tokens superfluous (but doesn't so far)
 - Moved PubliclyCloneable to parse package
+- Switched from svn to git and GitHub
