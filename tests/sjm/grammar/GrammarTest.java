@@ -108,6 +108,7 @@ public class GrammarTest {
 		final List<Object> expectedMatches = new ArrayList<Object>();
 		expectedMatches.add(new Token("test"));
 		Closure closure = new Closure(this) {
+			@SuppressWarnings("unused")
 			public void doCall(List<Object> matches, Stack<Object> stack) {
 				assertEquals(expectedMatches, matches);
 				assertTrue(stack.isEmpty());
