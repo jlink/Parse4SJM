@@ -126,7 +126,7 @@ public abstract class Assembly implements Iterator<Object>, PubliclyCloneable<As
 	 * 
 	 * @return this assembly's stack
 	 */
-	public Stack<? extends Object> getStack() {
+	public Stack<Object> getStack() {
 		return stack;
 	}
 

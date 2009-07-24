@@ -3,7 +3,6 @@ package sjm.grammar;
 import java.util.Stack;
 
 import sjm.parse.*;
-import sjm.parse.tokens.Token;
 
 public class ParsingResult implements IParsingResult {
 
@@ -19,11 +18,11 @@ public class ParsingResult implements IParsingResult {
 		return result.elementsRemaining() == 0;
 	}
 
-	public Stack<Token> getStack() {
+	public Stack<Object> getStack() {
 		if (result == null)
-			return new Stack<Token>();
+			return new Stack<Object>();
 
-		return (Stack<Token>) result.getStack();
+		return result.getStack();
 	}
 
 	public PubliclyCloneable<? extends Object> getTarget() {

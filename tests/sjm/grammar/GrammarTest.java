@@ -1,6 +1,7 @@
 package sjm.grammar;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 import java.io.*;
@@ -121,7 +122,7 @@ public class GrammarTest {
 	public void resultStack() {
 		grammar.addRule("mystart", new Literal("myliteral"));
 		IParsingResult result = grammar.parse("myliteral");
-		assertEquals("myliteral", result.getStack().peek().value());
+		assertEquals(new Token("myliteral"), result.getStack().peek());
 	}
 
 	@Test
@@ -230,7 +231,7 @@ public class GrammarTest {
 			}
 		}
 		long after = System.currentTimeMillis();
-		assertTrue("Time in msecs: " + (after - before), (after - before) < 600L);
+		assertTrue("Time in msecs: " + (after - before), (after - before) < 1000L);
 	}
 
 	@Test
