@@ -1,5 +1,7 @@
 package sjm.grammar;
 
+import groovy.lang.Closure;
+
 import java.io.*;
 import java.util.*;
 
@@ -59,6 +61,21 @@ public class Grammar {
 	public void addRule(String ruleName, IParser parser, IAssembler assembler) {
 		addRule(ruleName, parser);
 		addAssembler(ruleName, assembler);
+	}
+
+	public void addRule(String ruleName, IParser parser, IParserMatched matched) {
+		addRule(ruleName, parser);
+		addAssembler(ruleName, new ParserMatchedAssembler(matched));
+	}
+
+	public void addRule(String ruleName, IParser parser, final Closure closure) {
+		addRule(ruleName, parser);
+		IParserMatched matched = new IParserMatched() {
+			public void apply(List<Object> tokens, Stack<Object> stack) {
+				closure.call(new Object[] { tokens, stack });
+			}
+		};
+		addAssembler(ruleName, new ParserMatchedAssembler(matched));
 	}
 
 	public void defineStartRule(String ruleName) {

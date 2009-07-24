@@ -4,7 +4,10 @@ import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
+import groovy.lang.Closure;
+
 import java.io.*;
+import java.util.*;
 
 import org.junit.*;
 
@@ -86,6 +89,34 @@ public class GrammarTest {
 		grammar.addRule("mystart", new Literal("test"), assembler);
 		grammar.parse("test");
 		verify(assembler).workOn(any(Assembly.class));
+	}
+
+	@Test
+	public void addRuleTogetherWithParserMatched() {
+		IParserMatched matched = mock(IParserMatched.class);
+		grammar.addRule("mystart", new Literal("test"), matched);
+		grammar.parse("test");
+		List<Object> expectedMatches = new ArrayList<Object>();
+		expectedMatches.add(new Token("test"));
+		verify(matched).apply(expectedMatches, new Stack<Object>());
+	}
+
+	private boolean called = false;
+
+	@Test
+	public void addRuleTogetherWithGroovyClosure() {
+		final List<Object> expectedMatches = new ArrayList<Object>();
+		expectedMatches.add(new Token("test"));
+		Closure closure = new Closure(this) {
+			public void doCall(List<Object> matches, Stack<Object> stack) {
+				assertEquals(expectedMatches, matches);
+				assertTrue(stack.isEmpty());
+				called = true;
+			}
+		};
+		grammar.addRule("mystart", new Literal("test"), closure);
+		grammar.parse("test");
+		assertTrue(called);
 	}
 
 	@Test
