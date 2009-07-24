@@ -15,63 +15,63 @@ public class LeftRecursionCheckerTest {
 
 	@Test
 	public void noRecursion() {
-		grammar.addTextualRule("s = '<' '+'");
+		grammar.defineRule("s = '<' '+'");
 		assertNoLeftRecursionException();
 	}
 
 	@Test
 	public void rightRecursionIsFine() {
-		grammar.addTextualRule("s = '<' s");
+		grammar.defineRule("s = '<' s");
 		assertNoLeftRecursionException();
 	}
 
 	@Test
 	public void ruleReferencesItself() {
-		grammar.addTextualRule("s = s");
+		grammar.defineRule("s = s");
 		assertLeftRecursionException();
 	}
 
 	@Test
 	public void immediateLeftRecursionInSequence() {
-		grammar.addTextualRule("s = s '>'");
+		grammar.defineRule("s = s '>'");
 		assertLeftRecursionException();
 	}
 
 	@Test
 	public void immediateLeftRecursionInRepetition() {
-		grammar.addTextualRule("s = (s '>')*");
+		grammar.defineRule("s = (s '>')*");
 		assertLeftRecursionException();
 
-		grammar.addTextualRule("s = (s '>')+");
+		grammar.defineRule("s = (s '>')+");
 		assertLeftRecursionException();
 	}
 
 	@Test
 	public void immediateLeftRecursionInAlternation() {
-		grammar.addTextualRule("s = ('>' s) | s");
+		grammar.defineRule("s = ('>' s) | s");
 		assertLeftRecursionException();
 
-		grammar.addTextualRule("s = (s '>') | '<'");
+		grammar.defineRule("s = (s '>') | '<'");
 		assertLeftRecursionException();
 	}
 
 	@Test
 	public void indirectLeftRecursion() {
-		grammar.addTextualRule("s = a '<'");
-		grammar.addTextualRule("a = Num | s '+'");
+		grammar.defineRule("s = a '<'");
+		grammar.defineRule("a = Num | s '+'");
 		assertLeftRecursionException();
 	}
 
 	@Test
 	public void complexExample() {
-		grammar.addTextualRule("s = a '<'");
-		grammar.addTextualRule("a = Num | b '+'");
-		grammar.addTextualRule("b = Num | (c '+') | ('=' d)");
-		grammar.addTextualRule("c = Int | ('+' c) | d");
-		grammar.addTextualRule("d = s+");
+		grammar.defineRule("s = a '<'");
+		grammar.defineRule("a = Num | b '+'");
+		grammar.defineRule("b = Num | (c '+') | ('=' d)");
+		grammar.defineRule("c = Int | ('+' c) | d");
+		grammar.defineRule("d = s+");
 		assertLeftRecursionException();
 
-		grammar.addTextualRule("d = Word");
+		grammar.defineRule("d = Word");
 		assertNoLeftRecursionException();
 	}
 

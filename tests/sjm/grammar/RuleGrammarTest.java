@@ -33,6 +33,12 @@ public class RuleGrammarTest {
 	}
 
 	@Test
+	public void resultStackShouldHaveRuleName() {
+		IParsingResult result = grammar.parse("myRule = " + "\"cl\"");
+		assertEquals(result.getStack().peek(), "myRule");
+	}
+
+	@Test
 	public void symbolDefinition() {
 		IParser rule = resultRule("'<'");
 		assertEquals(new Symbol("<"), rule);
@@ -149,7 +155,7 @@ public class RuleGrammarTest {
 		assertTrue(((Terminal) ref.getChild(0)).isDiscarded());
 		assertTrue(((Terminal) ref.getChild(1)).isDiscarded());
 	}
-	
+
 	@Test
 	public void atLeastOne() {
 		Repetition rep = (Repetition) resultRule("a+");

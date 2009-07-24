@@ -92,35 +92,6 @@ public class GrammarTest {
 	}
 
 	@Test
-	public void addRuleTogetherWithParserMatched() {
-		IParserMatched matched = mock(IParserMatched.class);
-		grammar.addRule("mystart", new Literal("test"), matched);
-		grammar.parse("test");
-		List<Object> expectedMatches = new ArrayList<Object>();
-		expectedMatches.add(new Token("test"));
-		verify(matched).apply(expectedMatches, new Stack<Object>());
-	}
-
-	private boolean called = false;
-
-	@Test
-	public void addRuleTogetherWithGroovyClosure() {
-		final List<Object> expectedMatches = new ArrayList<Object>();
-		expectedMatches.add(new Token("test"));
-		Closure closure = new Closure(this) {
-			@SuppressWarnings("unused")
-			public void doCall(List<Object> matches, Stack<Object> stack) {
-				assertEquals(expectedMatches, matches);
-				assertTrue(stack.isEmpty());
-				called = true;
-			}
-		};
-		grammar.addRule("mystart", new Literal("test"), closure);
-		grammar.parse("test");
-		assertTrue(called);
-	}
-
-	@Test
 	public void assemblersWorkWithRuleReference() {
 		grammar.addRule("mystart", new RuleReference("ref", grammar));
 		IAssembler assembler = mock(IAssembler.class);
@@ -211,8 +182,37 @@ public class GrammarTest {
 
 	@Test
 	public void textualRules() {
-		grammar.addTextualRule("command = \"go\"");
+		grammar.defineRule("command = \"go\"");
 		assertTrue(grammar.parse("go").isCompleteMatch());
+	}
+
+	@Test
+	public void textualRuleWithParserMatched() {
+		IParserMatched matched = mock(IParserMatched.class);
+		grammar.defineRule("mystart", new Literal("test"), matched);
+		grammar.parse("test");
+		List<Object> expectedMatches = new ArrayList<Object>();
+		expectedMatches.add(new Token("test"));
+		verify(matched).apply(expectedMatches, new Stack<Object>());
+	}
+
+	private boolean called = false;
+
+	@Test
+	public void textualRuleWithGroovyClosure() {
+		final List<Object> expectedMatches = new ArrayList<Object>();
+		expectedMatches.add(new Token("test"));
+		Closure closure = new Closure(this) {
+			@SuppressWarnings("unused")
+			public void doCall(List<Object> matches, Stack<Object> stack) {
+				assertEquals(expectedMatches, matches);
+				assertTrue(stack.isEmpty());
+				called = true;
+			}
+		};
+		grammar.defineRule("mystart", new Literal("test"), closure);
+		grammar.parse("test");
+		assertTrue(called);
 	}
 
 	@Test
@@ -226,7 +226,7 @@ public class GrammarTest {
 
 	@Test(expected = GrammarException.class)
 	public void leftRecursivenessCheckerIsPluggedIn() {
-		grammar.addTextualRule("r = r '>'");
+		grammar.defineRule("r = r '>'");
 		grammar.check();
 	}
 

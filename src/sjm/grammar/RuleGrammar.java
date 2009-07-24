@@ -65,7 +65,7 @@ public class RuleGrammar extends Grammar {
 	}
 
 	@Override
-	public void addTextualRule(String ruleText) {
+	public void defineRule(String ruleText) {
 		throw new GrammarException("addTextualRule() does not work in RuleGrammar to prevent infinite recursion.");
 	}
 
@@ -134,6 +134,7 @@ public class RuleGrammar extends Grammar {
 			Parser parser = (Parser) a.pop();
 			String ruleName = ((Token) a.pop()).sval();
 			targetGrammar.addRule(ruleName, parser);
+			a.push(ruleName);
 		}
 	}
 
