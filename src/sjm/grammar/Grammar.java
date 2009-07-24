@@ -112,23 +112,23 @@ public class Grammar {
 		return rules.get(ruleName);
 	}
 
-	public void defineRule(String ruleText) {
-		getRuleGrammar().parse(ruleText);
+	public String defineRule(String ruleText) {
+		return (String) getRuleGrammar().parse(ruleText).getStack().pop();
 	}
 
-	public void defineRule(String ruleName, IParser parser, IParserMatched matched) {
-		addRule(ruleName, parser);
+	public String defineRule(String ruleText, IParserMatched matched) {
+		String ruleName = defineRule(ruleText);
 		addAssembler(ruleName, new ParserMatchedAssembler(matched));
+		return ruleName;
 	}
 
-	public void defineRule(String ruleName, IParser parser, final Closure closure) {
-		addRule(ruleName, parser);
+	public String defineRule(String ruleText, final Closure closure) {
 		IParserMatched matched = new IParserMatched() {
 			public void apply(List<Object> tokens, Stack<Object> stack) {
 				closure.call(new Object[] { tokens, stack });
 			}
 		};
-		addAssembler(ruleName, new ParserMatchedAssembler(matched));
+		return defineRule(ruleText, matched);
 	}
 
 	/**

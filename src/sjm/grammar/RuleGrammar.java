@@ -65,7 +65,7 @@ public class RuleGrammar extends Grammar {
 	}
 
 	@Override
-	public void defineRule(String ruleText) {
+	public String defineRule(String ruleText) {
 		throw new GrammarException("addTextualRule() does not work in RuleGrammar to prevent infinite recursion.");
 	}
 

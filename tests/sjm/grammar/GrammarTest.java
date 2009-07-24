@@ -182,14 +182,16 @@ public class GrammarTest {
 
 	@Test
 	public void textualRules() {
-		grammar.defineRule("command = \"go\"");
+		String ruleName = grammar.defineRule("command = \"go\"");
+		assertEquals("command", ruleName);
 		assertTrue(grammar.parse("go").isCompleteMatch());
 	}
 
 	@Test
 	public void textualRuleWithParserMatched() {
 		IParserMatched matched = mock(IParserMatched.class);
-		grammar.defineRule("mystart", new Literal("test"), matched);
+		String ruleName = grammar.defineRule("mystart = \"test\"", matched);
+		assertEquals("mystart", ruleName);
 		grammar.parse("test");
 		List<Object> expectedMatches = new ArrayList<Object>();
 		expectedMatches.add(new Token("test"));
@@ -210,7 +212,8 @@ public class GrammarTest {
 				called = true;
 			}
 		};
-		grammar.defineRule("mystart", new Literal("test"), closure);
+		String ruleName = grammar.defineRule("mystart = \"test\"", closure);
+		assertEquals("mystart", ruleName);
 		grammar.parse("test");
 		assertTrue(called);
 	}
