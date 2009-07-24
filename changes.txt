@@ -22,3 +22,4 @@
 - Added Assembly.popAllMatches(): Should make fence tokens superfluous (but doesn't so far)
 - Moved PubliclyCloneable to parse package
 - Switched from svn to git and GitHub
+- Added sjm.grammar.IParserMatched interface
