@@ -54,7 +54,7 @@ public class Grammar {
 	public void addRule(String ruleName, IParser parser) {
 		rules.put(ruleName, parser);
 		if (startRule == null)
-			defineStartRule(ruleName);
+			markAsStartRule(ruleName);
 		hasBeenChecked = false;
 	}
 
@@ -63,7 +63,7 @@ public class Grammar {
 		addAssembler(ruleName, assembler);
 	}
 
-	public void defineStartRule(String ruleName) {
+	public void markAsStartRule(String ruleName) {
 		this.startRule = ruleName;
 		hasBeenChecked = false;
 	}

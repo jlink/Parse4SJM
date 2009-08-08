@@ -49,7 +49,7 @@ public class GrammarTest {
 	public void otherStartruleThanFirst() {
 		grammar.addRule("nostart", new Empty());
 		grammar.addRule("mystart", new RuleReference("nostart", grammar));
-		grammar.defineStartRule("mystart");
+		grammar.markAsStartRule("mystart");
 		grammar.check();
 	}
 

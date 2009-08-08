@@ -6,6 +6,7 @@
 	<property name="examples.dir" value="examples" />
 	<property name="build.dir" value="build" />
 	<property name="jars.dir" value="distrib/" />
+	<property name="groovy.lib" value="lib/groovy-all-1.6.3.jar" />
 	<property name="junit.lib" value="lib/junit-4.6.jar" />
 	<property name="mockito.lib" value="lib/mockito-all-1.7.jar" />
 	<property name="parse4sjm.jar" value="${jars.dir}/parse4sjm-${version}.jar" />
@@ -16,6 +17,7 @@
 
 	<path id="class.path.build">
 		<pathelement location="${junit46.lib}" />
+		<pathelement location="${groovy.lib}" />
 	</path>
 
 	<target name="clean">
