@@ -2,6 +2,7 @@ package sjm.parse;
 
 import static org.junit.Assert.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
@@ -14,34 +15,68 @@ public class PopAllMatchesTest extends AbstractParsingTest {
 	private Assembly result;
 
 	@Test
-	public void individualParsers() {
+	public void empty() {
 		parser = new Empty();
 		result = bestMatch("");
 		assertTrue(result.popAllMatches().isEmpty());
+	}
 
+	public void terminal() {
 		parser = new Word();
 		result = bestMatch("allo");
 		assertEquals(1, result.popAllMatches().size());
 
+		parser = new Num();
+		result = bestMatch("2.1");
+		assertEquals(1, result.popAllMatches().size());
+
+		parser = new Symbol("+");
+		result = bestMatch("+");
+		assertEquals(1, result.popAllMatches().size());
+	}
+
+	public void sequence() {
+		parser = new Sequence().add(new Literal("abc")).add(new Word()).add(new Symbol(",").discard());
+		result = bestMatch("abc hello,");
+		List<Object> allMatches = result.popAllMatches();
+		assertEquals(2, allMatches.size());
+		assertEquals(new Token("abc"), allMatches.get(0));
+		assertEquals(new Token("hello"), allMatches.get(1));
+	}
+
+	public void alternation() {
+		parser = new Alternation().add(new Literal("abc")).add(new Literal("def"));
+		result = bestMatch("abc");
+		List<Object> allMatches = result.popAllMatches();
+		assertEquals(1, allMatches.size());
+		assertEquals(new Token("abc"), allMatches.get(0));
+	}
+
+	public void repetition() {
 		parser = new Repetition(new Word());
+		result = bestMatch("");
+		assertEquals(0, result.popAllMatches().size());
+
 		result = bestMatch("a b c d");
 		List<Object> allMatches = result.popAllMatches();
 		assertEquals(4, allMatches.size());
 		assertEquals(new Token("a"), allMatches.get(0));
 		assertEquals(new Token("d"), allMatches.get(3));
+	}
 
-		parser = new Sequence().add(new Literal("abc")).add(new Word()).add(new Symbol(",").discard());
-		result = bestMatch("abc hello,");
-		allMatches = result.popAllMatches();
-		assertEquals(2, allMatches.size());
-		assertEquals(new Token("abc"), allMatches.get(0));
-		assertEquals(new Token("hello"), allMatches.get(1));
+	@Test
+	public void repetitionOfSequence() {
+		Parser seq = new Sequence().add(new Word());
+		parser = new Repetition(seq);
 
-		parser = new Alternation().add(new Literal("abc")).add(new Literal("def"));
+		result = bestMatch("");
+		assertEquals(0, result.popAllMatches().size());
+
 		result = bestMatch("abc");
-		allMatches = result.popAllMatches();
-		assertEquals(1, allMatches.size());
-		assertEquals(new Token("abc"), allMatches.get(0));
+		assertEquals(1, result.popAllMatches().size());
+
+		//		result = bestMatch("abc def");
+		//		assertEquals(2, result.popAllMatches().size());
 	}
 
 	@Test

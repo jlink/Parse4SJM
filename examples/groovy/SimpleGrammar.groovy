@@ -2,7 +2,7 @@ import sjm.grammar.Grammar
 
 def mathGrammar = new Grammar("a simple math grammar")
 
-mathGrammar.defineRule("start = Num") { matches, stack ->
+mathGrammar.defineRule("term = Num") { matches, stack ->
     stack.push(matches[0].value())
 }
 

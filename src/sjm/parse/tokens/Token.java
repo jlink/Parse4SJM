@@ -240,9 +240,9 @@ public class Token {
 	@Override
 	public String toString() {
 		if (ttype == TT_EOF) {
-			return "EOF";
+			return "Token:EOF";
 		}
-		return value().toString();
+		return "Token:" + value().toString();
 	}
 
 	/**
