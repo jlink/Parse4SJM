@@ -78,11 +78,20 @@ public abstract class Assembly implements Iterator<Object>, PubliclyCloneable<As
 	}
 
 	public void announceMatchingStart() {
+		//System.out.println("announce start: " + this + " " + getStackSizesBeforeMatch());
 		this.stackSizesBeforeMatch.push(stack.size());
 	}
 
 	public void announceMatchingEnd() {
+		//System.out.println("announce end: " + this + " " + getStackSizesBeforeMatch());
 		this.stackSizesBeforeMatch.pop();
+	}
+
+	/**
+	 * For testing purposes only
+	 */
+	public Stack<Integer> getStackSizesBeforeMatch() {
+		return stackSizesBeforeMatch;
 	}
 
 	/**

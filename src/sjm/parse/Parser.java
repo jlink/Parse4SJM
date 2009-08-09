@@ -181,12 +181,11 @@ public abstract class Parser implements IParser {
 	}
 
 	/**
-	 * Create a copy of a vector, cloning each element of the vector.
+	 * Create a copy of a Set, cloning each element of the vector.
 	 * 
-	 * @param in
-	 *            the vector to copy
+	 * @param in the Set to copy
 	 * 
-	 * @return a copy of the input vector, cloning each element of the vector
+	 * @return a copy of the input Set, cloning each element of it
 	 */
 	public static Set<Assembly> elementClone(Set<Assembly> v) {
 		Set<Assembly> copy = new HashSet<Assembly>();

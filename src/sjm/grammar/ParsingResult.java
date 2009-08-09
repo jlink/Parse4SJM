@@ -37,4 +37,5 @@ public class ParsingResult implements IParsingResult {
 			return "null parsing result";
 		return result.toString();
 	}
+
 }

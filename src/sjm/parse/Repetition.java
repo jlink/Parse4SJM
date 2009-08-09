@@ -122,7 +122,7 @@ public class Repetition extends Parser {
 			s = subparser.matchAndAssemble(s);
 			countNumberOfMatches++;
 			if (countNumberOfMatches >= numberOfRequiredMatches)
-				out.addAll(s);
+				out.addAll(elementClone(s));
 		}
 		return out;
 	}
