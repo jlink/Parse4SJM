@@ -245,12 +245,12 @@ public abstract class Parser implements IParser {
 	public Set<Assembly> matchAndAssemble(Set<Assembly> in) {
 		announceMatchingStart(in);
 		Set<Assembly> out = match(in);
-		announceMatchingEnd(out);
 		if (assembler != null) {
 			for (Assembly assembly : out) {
 				assembler.workOn(assembly);
 			}
 		}
+		announceMatchingEnd(out);
 		return out;
 	}
 

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import sjm.grammar.ParsingResult;
 import sjm.parse.tokens.*;
 
 public class PopAllMatchesTest extends AbstractParsingTest {
